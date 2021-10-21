@@ -4,7 +4,7 @@ import 'package:flutter_course_two_expenses_app/screens/widgets/chart.dart';
 import 'package:flutter_course_two_expenses_app/screens/widgets/transaction_list.dart';
 
 class TransactionsBody extends StatefulWidget {
-  const TransactionsBody({
+  TransactionsBody({
     Key? key,
     required this.titleController,
     required this.amountController,
@@ -12,7 +12,9 @@ class TransactionsBody extends StatefulWidget {
     required this.onSubmit,
     required this.deleteTransaction,
     required this.appBarHeight,
-  }) : super(key: key);
+  }) {
+    print('transaction body');
+  }
 
   final TextEditingController titleController;
   final TextEditingController amountController;
@@ -26,6 +28,24 @@ class TransactionsBody extends StatefulWidget {
 }
 
 class _TransactionsBodyState extends State<TransactionsBody> {
+  @override
+  void initState() {
+    super.initState();
+    print('init state');
+  }
+
+  @override
+  void didUpdateWidget(TransactionsBody oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    print('did update widget');
+  }
+
+  @override
+  void dispose() {
+    print('disposed');
+    super.dispose();
+  }
+
   List<Transaction> get recentTransaction {
     return widget.transactions
         .where(

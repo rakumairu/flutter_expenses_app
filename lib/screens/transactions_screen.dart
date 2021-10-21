@@ -10,13 +10,33 @@ class TransactionsScreen extends StatefulWidget {
   _TransactionsScreenState createState() => _TransactionsScreenState();
 }
 
-class _TransactionsScreenState extends State<TransactionsScreen> {
+class _TransactionsScreenState extends State<TransactionsScreen>
+    with WidgetsBindingObserver {
   final List<Transaction> transactions = [];
 
   final TextEditingController titleController = TextEditingController();
   final TextEditingController amountController = TextEditingController();
 
   DateTime? selectedDate;
+
+  @override
+  void initState() {
+    super.initState();
+    // add observer for didChangeAppLifecycleState
+    WidgetsBinding.instance?.addObserver(this);
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    print(state);
+  }
+
+  @override
+  void dispose() {
+    // remove observer for didChangeAppLifecycleState
+    WidgetsBinding.instance?.removeObserver(this);
+    super.dispose();
+  }
 
   onSubmit() {
     final transactionTitle = titleController.text;

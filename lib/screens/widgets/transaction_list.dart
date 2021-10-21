@@ -35,6 +35,7 @@ class TransactionList extends StatelessWidget {
                 return TransactionCard(
                   transaction: transactions[index],
                   deleteTransaction: deleteTransaction,
+                  key: ValueKey(transactions[index].id),
                 );
               },
               itemCount: transactions.length,

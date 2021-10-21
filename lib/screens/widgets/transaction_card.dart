@@ -1,8 +1,10 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_course_two_expenses_app/models/transaction.dart';
 import 'package:intl/intl.dart';
 
-class TransactionCard extends StatelessWidget {
+class TransactionCard extends StatefulWidget {
   const TransactionCard({
     Key? key,
     required this.transaction,
@@ -11,6 +13,26 @@ class TransactionCard extends StatelessWidget {
 
   final Transaction transaction;
   final Function deleteTransaction;
+
+  @override
+  State<TransactionCard> createState() => _TransactionCardState();
+}
+
+class _TransactionCardState extends State<TransactionCard> {
+  Color _bgColor = Colors.amber;
+
+  @override
+  void initState() {
+    super.initState();
+    const availableColors = [
+      Colors.amber,
+      Colors.blue,
+      Colors.indigo,
+      Colors.green
+    ];
+
+    _bgColor = availableColors[Random().nextInt(4)];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +49,7 @@ class TransactionCard extends StatelessWidget {
               Container(
                 decoration: BoxDecoration(
                   border: Border.all(
-                    color: Theme.of(context).primaryColor,
+                    color: _bgColor,
                     width: 1,
                     style: BorderStyle.solid,
                   ),
@@ -36,7 +58,7 @@ class TransactionCard extends StatelessWidget {
                 padding: const EdgeInsets.all(8),
                 margin: const EdgeInsets.only(right: 12),
                 child: Text(
-                  '\$${transaction.amount.toStringAsFixed(2)}',
+                  '\$${widget.transaction.amount.toStringAsFixed(2)}',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Theme.of(context).primaryColor,
@@ -52,7 +74,7 @@ class TransactionCard extends StatelessWidget {
                         bottom: 2,
                       ),
                       child: Text(
-                        transaction.title,
+                        widget.transaction.title,
                         // style: TextStyle(
                         //   fontSize: 15,
                         //   fontWeight: FontWeight.bold,
@@ -62,7 +84,7 @@ class TransactionCard extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      DateFormat('yMMMd').format(transaction.date),
+                      DateFormat('yMMMd').format(widget.transaction.date),
                       style: TextStyle(
                         fontSize: 12,
                         color: Theme.of(context).primaryColor,
@@ -77,14 +99,16 @@ class TransactionCard extends StatelessWidget {
                         'Delete',
                         style: TextStyle(color: Theme.of(context).errorColor),
                       ),
-                      onPressed: () => deleteTransaction(transaction.id),
+                      onPressed: () =>
+                          widget.deleteTransaction(widget.transaction.id),
                       icon: Icon(
                         Icons.delete,
                         color: Theme.of(context).errorColor,
                       ),
                     )
                   : IconButton(
-                      onPressed: () => deleteTransaction(transaction.id),
+                      onPressed: () =>
+                          widget.deleteTransaction(widget.transaction.id),
                       icon: Icon(
                         Icons.delete,
                         color: Theme.of(context).errorColor,
